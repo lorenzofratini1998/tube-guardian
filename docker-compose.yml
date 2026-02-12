@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    image: postgres:18-alpine
+    container_name: tg-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tg-network
+    # Healthcheck ensures the DB is ready before the Orchestrator starts
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1024M
+        reservations:
+          memory: 256M
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: tg-qdrant
+    restart: unless-stopped
+    ports:
+      - "${QDRANT_PORT}:6333"   # AMQP protocol port
+      - "6334:6334"             # Management UI (http://localhost:15672)
+    configs:
+      - source: qdrant_config
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - tg-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1024M
+        reservations:
+          memory: 512M
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    container_name: tg-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports:
+      - "${RABBITMQ_PORT}:5672"       # HTTP API (Used by Spring AI)
+      - "${RABBITMQ_UI_PORT}:15672"   # gRPC API
+    networks:
+      - tg-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          memory: 128M
+
+networks:
+  tg-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  qdrant_data:
+
+configs:
+  qdrant_config:
+    content: |
+      log_level: INFO
