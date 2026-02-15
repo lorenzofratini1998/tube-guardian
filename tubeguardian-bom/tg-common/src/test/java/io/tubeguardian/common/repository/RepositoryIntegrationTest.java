@@ -1,21 +1,20 @@
 package io.tubeguardian.common.repository;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import io.tubeguardian.common.domain.AnalysisJob;
 import io.tubeguardian.common.domain.AnalysisResult;
 import io.tubeguardian.common.domain.BrandProfile;
 import io.tubeguardian.common.domain.Video;
 import io.tubeguardian.common.domain.risk.RiskLevel;
 import io.tubeguardian.common.domain.status.JobStatus;
+import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
-
-import java.util.Map;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class RepositoryIntegrationTest extends AbstractRepositoryTest {
 

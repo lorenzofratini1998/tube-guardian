@@ -2,11 +2,10 @@ package io.tubeguardian.common.domain;
 
 import io.tubeguardian.common.domain.risk.RiskLevel;
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
 import java.time.LocalDateTime;
 import java.util.Map;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "analysis_results")

@@ -1,7 +1,6 @@
 package io.tubeguardian.common.exception;
 
 import io.tubeguardian.common.domain.status.JobStatus;
-
 import java.util.UUID;
 
 public class InvalidJobStateTransitionException extends TubeGuardianException {

@@ -12,8 +12,6 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public abstract class AbstractRepositoryTest {
 
-    @Container
-    @ServiceConnection
-    static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:18-alpine");
-
+  @Container @ServiceConnection
+  static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:18-alpine");
 }

@@ -1,14 +1,12 @@
 package io.tubeguardian.common.domain;
 
-import io.tubeguardian.common.domain.AnalysisJob;
-import io.tubeguardian.common.domain.Video;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import io.tubeguardian.common.domain.status.JobStatus;
 import io.tubeguardian.common.exception.InvalidJobStateTransitionException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class AnalysisJobTest {
 
