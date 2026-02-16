@@ -8,7 +8,7 @@ import io.tubeguardian.common.domain.AnalysisJob;
 import io.tubeguardian.common.domain.AnalysisResult;
 import io.tubeguardian.common.domain.Video;
 import io.tubeguardian.common.domain.status.JobStatus;
-import io.tubeguardian.common.repository.AnalysisJobRepository;
+import io.tubeguardian.orchestrator.repository.AnalysisJobRepository;
 import io.tubeguardian.common.repository.AnalysisResultRepository;
 import io.tubeguardian.orchestrator.api.dto.AnalysisJobResponse;
 import io.tubeguardian.orchestrator.api.dto.AnalysisRequest;

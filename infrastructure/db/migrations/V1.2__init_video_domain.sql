@@ -1,3 +1,4 @@
+SET search_path TO video_domain;
 -------------------------------------------------------------
 CREATE TABLE videos
 (
@@ -47,25 +48,6 @@ CREATE INDEX idx_jobs_status ON analysis_jobs (status);
 
 ALTER TABLE analysis_jobs
     ADD CONSTRAINT FK_ANALYSIS_JOBS_ON_VIDEO FOREIGN KEY (video_id) REFERENCES videos (id);
--------------------------------------------------------------
-CREATE TABLE analysis_results
-(
-    id             UUID   NOT NULL,
-    version        BIGINT NOT NULL,
-    created_at     TIMESTAMP WITHOUT TIME ZONE,
-    updated_at     TIMESTAMP WITHOUT TIME ZONE,
-    video_id       UUID   NOT NULL,
-    model_used     VARCHAR(50),
-    prompt_version VARCHAR(20),
-    full_response  JSONB  NOT NULL,
-    analyzed_at    TIMESTAMP WITHOUT TIME ZONE,
-    CONSTRAINT pk_analysis_results PRIMARY KEY (id)
-);
-
-CREATE INDEX idx_analysis_json ON analysis_results USING GIN (full_response);
-
-ALTER TABLE analysis_results
-    ADD CONSTRAINT FK_ANALYSIS_RESULTS_ON_VIDEO FOREIGN KEY (video_id) REFERENCES videos (id);
 -------------------------------------------------------------
 CREATE TABLE brand_profiles
 (

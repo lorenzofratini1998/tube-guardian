@@ -4,6 +4,19 @@ app:
       url: ${INGESTION_SERVICE_URL:http://localhost:8000}
       timeout: ${INGESTION_SERVICE_TIMEOUT:30s}
 
+spring:
+  application:
+    name: tg-video-orchestrator
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${SPRING_DATASOURCE_DB}
+    username: ${SPRING_DATASOURCE_USER}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
 resilience4j:
   circuitbreaker:
     instances:

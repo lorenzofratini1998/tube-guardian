@@ -8,7 +8,8 @@ import java.time.LocalDate;
     name = "videos",
     uniqueConstraints = {
       @UniqueConstraint(name = "uk_videos_youtube_id", columnNames = "youtube_id")
-    })
+    },
+    schema = "video_domain")
 public class Video extends BaseEntity {
 
   @Column(name = "youtube_id", nullable = false, length = 20)

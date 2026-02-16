@@ -1,4 +1,4 @@
-package io.tubeguardian.common.repository;
+package io.tubeguardian.orchestrator.repository;
 
 import io.tubeguardian.common.domain.BrandProfile;
 import org.springframework.data.jpa.repository.JpaRepository;

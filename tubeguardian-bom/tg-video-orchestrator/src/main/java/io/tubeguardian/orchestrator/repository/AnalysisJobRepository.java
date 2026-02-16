@@ -1,4 +1,4 @@
-package io.tubeguardian.common.repository;
+package io.tubeguardian.orchestrator.repository;
 
 import io.tubeguardian.common.domain.AnalysisJob;
 import java.util.Optional;

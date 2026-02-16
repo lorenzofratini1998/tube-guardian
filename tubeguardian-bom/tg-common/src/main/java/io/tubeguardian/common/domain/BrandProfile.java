@@ -13,7 +13,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 @Entity
-@Table(name = "brand_profiles")
+@Table(name = "brand_profiles", schema = "video_domain")
 public class BrandProfile {
 
     @Id
