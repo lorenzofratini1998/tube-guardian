@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: tg-policy-engine
+
+  ai:
+    google:
+      genai:
+        api-key: ${GOOGLE_GENAI_API_KEY}
+        model: gemini-embedding-001
+
+    vectorstore:
+      qdrant:
+        host: ${SPRING_AI_VECTORSTORE_QDRANT_HOST:localhost}
+        port: ${SPRING_AI_VECTORSTORE_QDRANT_PORT:6334}
+        collection-name: garm_policies
+        initialize-schema: true

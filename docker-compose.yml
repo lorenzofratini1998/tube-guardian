@@ -31,7 +31,7 @@ services:
           memory: 256M
 
   qdrant:
-    image: qdrant/qdrant:latest
+    image: qdrant/qdrant:v1.13.6
     container_name: tg-qdrant
     restart: unless-stopped
     ports:
