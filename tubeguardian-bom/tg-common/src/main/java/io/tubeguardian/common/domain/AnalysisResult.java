@@ -8,7 +8,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 @Entity
-@Table(name = "analysis_results")
+@Table(name = "analysis_results", schema = "analysis_domain")
 public class AnalysisResult extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -7,7 +7,8 @@ import jakarta.persistence.*;
 @Entity
 @Table(
     name = "analysis_jobs",
-    indexes = {@Index(name = "idx_jobs_status", columnList = "status")})
+    indexes = {@Index(name = "idx_jobs_status", columnList = "status")},
+    schema = "video_domain")
 public class AnalysisJob extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)

@@ -1,4 +1,4 @@
-package io.tubeguardian.common.repository;
+package io.tubeguardian.orchestrator.repository;
 
 import io.tubeguardian.common.domain.Video;
 import java.util.Optional;

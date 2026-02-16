@@ -1,4 +1,4 @@
-.env
+infrastructure/.env
 .DS_Store
 .idea/
 target/

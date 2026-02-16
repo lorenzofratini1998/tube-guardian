@@ -8,7 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "video_contents")
+@Table(name = "video_contents", schema = "video_domain")
 public class VideoContent {
 
   @Id

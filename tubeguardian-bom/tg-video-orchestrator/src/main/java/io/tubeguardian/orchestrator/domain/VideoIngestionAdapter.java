@@ -1,7 +1,7 @@
 package io.tubeguardian.orchestrator.domain;
 
 import io.tubeguardian.common.domain.Video;
-import io.tubeguardian.common.repository.VideoRepository;
+import io.tubeguardian.orchestrator.repository.VideoRepository;
 import io.tubeguardian.orchestrator.domain.model.YoutubeUrl;
 import io.tubeguardian.orchestrator.domain.services.VideoPersistenceService;
 import io.tubeguardian.orchestrator.infrastructure.client.ingestion.VideoServiceClient;

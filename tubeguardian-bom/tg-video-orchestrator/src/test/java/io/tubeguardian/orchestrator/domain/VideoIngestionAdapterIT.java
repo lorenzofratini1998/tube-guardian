@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import io.tubeguardian.common.domain.Video;
 import io.tubeguardian.common.domain.VideoContent;
-import io.tubeguardian.common.repository.VideoRepository;
+import io.tubeguardian.orchestrator.repository.VideoRepository;
 import io.tubeguardian.orchestrator.AbstractIntegrationTest;
 import io.tubeguardian.orchestrator.domain.model.YoutubeUrl;
 import java.util.Optional;

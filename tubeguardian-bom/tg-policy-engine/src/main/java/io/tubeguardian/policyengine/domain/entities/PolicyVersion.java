@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "policy_versions")
+@Table(name = "policy_versions", schema = "analysis_domain")
 public class PolicyVersion {
 
   @Id

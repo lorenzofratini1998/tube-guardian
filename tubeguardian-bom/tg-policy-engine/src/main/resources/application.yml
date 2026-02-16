@@ -1,6 +1,14 @@
 spring:
   application:
     name: tg-policy-engine
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${SPRING_DATASOURCE_DB}
+    username: ${SPRING_DATASOURCE_USER}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
 
   ai:
     google:
