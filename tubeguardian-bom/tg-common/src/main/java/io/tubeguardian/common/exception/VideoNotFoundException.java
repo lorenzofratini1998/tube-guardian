@@ -1,6 +1,5 @@
-package io.tubeguardian.policyengine.domain.exception;
+package io.tubeguardian.common.exception;
 
-import io.tubeguardian.common.exception.TubeGuardianException;
 import java.util.UUID;
 
 public class VideoNotFoundException extends TubeGuardianException {

@@ -7,7 +7,7 @@ import io.tubeguardian.common.domain.status.JobStatus;
 import io.tubeguardian.common.repository.AnalysisResultRepository;
 import io.tubeguardian.common.repository.VideoContentRepository;
 import io.tubeguardian.policyengine.domain.exception.TranscriptMissingException;
-import io.tubeguardian.policyengine.domain.exception.VideoNotFoundException;
+import io.tubeguardian.common.exception.VideoNotFoundException;
 import io.tubeguardian.policyengine.infrastructure.messaging.producer.AnalysisResultProducer;
 import jakarta.transaction.Transactional;
 import java.util.UUID;
