@@ -2,6 +2,7 @@ package io.tubeguardian.orchestrator.api;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -10,9 +11,14 @@ import io.tubeguardian.common.domain.AnalysisResult;
 import io.tubeguardian.common.exception.ServiceUnavailableException;
 import io.tubeguardian.orchestrator.api.dto.AnalysisJobResponse;
 import io.tubeguardian.orchestrator.api.dto.AnalysisRequest;
+import io.tubeguardian.orchestrator.api.dto.BrandSuitabilityDto;
+import io.tubeguardian.orchestrator.api.exception.BrandNotFoundException;
 import io.tubeguardian.orchestrator.api.exception.GlobalExceptionHandler;
 import io.tubeguardian.orchestrator.domain.AnalysisOrchestrationService;
+import io.tubeguardian.orchestrator.domain.services.BrandSuitabilityService;
 import io.tubeguardian.orchestrator.util.TestFixtures;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +39,7 @@ class AnalysisControllerTest {
   @Autowired private JacksonTester<AnalysisRequest> jsonRequest;
 
   @MockitoBean private AnalysisOrchestrationService orchestrationService;
+  @MockitoBean private BrandSuitabilityService suitabilityService;
 
   @Test
   @DisplayName("POST /analyze - Should return 202 Accepted and Location header for new job")
@@ -45,7 +52,7 @@ class AnalysisControllerTest {
 
     mockMvc
         .perform(
-            post("/api/v1/analyze")
+            post("/api/v1/analysis")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonRequest.write(request).getJson()))
         .andExpect(status().isAccepted())
@@ -64,7 +71,7 @@ class AnalysisControllerTest {
 
     mockMvc
         .perform(
-            post("/api/v1/analyze")
+            post("/api/v1/analysis")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonRequest.write(request).getJson()))
         .andExpect(status().isOk())
@@ -80,7 +87,7 @@ class AnalysisControllerTest {
 
     mockMvc
         .perform(
-            post("/api/v1/analyze")
+            post("/api/v1/analysis")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonRequest.write(invalidRequest).getJson()))
         .andExpect(status().isBadRequest())
@@ -95,10 +102,47 @@ class AnalysisControllerTest {
 
     mockMvc
         .perform(
-            post("/api/v1/analyze")
+            post("/api/v1/analysis")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonRequest.write(TestFixtures.validRequest()).getJson()))
         .andExpect(status().isServiceUnavailable())
         .andExpect(jsonPath("$.error").value("Service Unavailable"));
+  }
+
+  @Test
+  @DisplayName("GET /suitability - Should return 200 OK with report")
+  void shouldReturnSuitabilityReport() throws Exception {
+    UUID videoId = UUID.randomUUID();
+    String brandId = "DISNEY";
+
+    BrandSuitabilityDto mockReport = new BrandSuitabilityDto(brandId, "Disney", true, List.of());
+
+    when(suitabilityService.checkSuitability(videoId, brandId)).thenReturn(mockReport);
+
+    mockMvc
+        .perform(
+            get("/api/v1/analysis/videos/{videoId}/suitability", videoId)
+                .param("brand_profile_id", brandId)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.brandId").value(brandId))
+        .andExpect(jsonPath("$.isSuitable").value(true))
+        .andExpect(jsonPath("$.violations").isEmpty());
+  }
+
+  @Test
+  @DisplayName("GET /suitability - Should return 404 when video or brand not found")
+  void shouldReturnNotFoundForInvalidResources() throws Exception {
+    UUID videoId = UUID.randomUUID();
+    String invalidBrand = "UNKNOWN";
+
+    when(suitabilityService.checkSuitability(videoId, invalidBrand))
+        .thenThrow(new BrandNotFoundException(invalidBrand));
+
+    mockMvc
+        .perform(
+            get("/api/v1/analysis/videos/{videoId}/suitability", videoId)
+                .param("brand_profile_id", invalidBrand))
+        .andExpect(status().isNotFound());
   }
 }

@@ -1,6 +1,8 @@
 package io.tubeguardian.orchestrator.api.exception;
 
 import io.tubeguardian.common.exception.ServiceUnavailableException;
+import io.tubeguardian.common.exception.TubeGuardianException;
+import io.tubeguardian.common.exception.VideoNotFoundException;
 import io.tubeguardian.orchestrator.api.dto.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.stream.Collectors;
@@ -46,6 +48,13 @@ public class GlobalExceptionHandler {
         "Service Unavailable",
         "The video ingestion service is currently down. Please try again later.",
         request);
+  }
+
+  @ExceptionHandler({BrandNotFoundException.class, VideoNotFoundException.class})
+  public ResponseEntity<ApiErrorResponse> handleNotFound(
+      TubeGuardianException ex, HttpServletRequest request) {
+    log.warn("Resource not found: {}", ex.getMessage());
+    return buildResponse(HttpStatus.NOT_FOUND, "Resource Not Found", ex.getMessage(), request);
   }
 
   @ExceptionHandler(Exception.class)

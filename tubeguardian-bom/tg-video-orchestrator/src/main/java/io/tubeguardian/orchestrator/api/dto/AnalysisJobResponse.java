@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record AnalysisJobResponse(
-    UUID jobId, String videoId, String status, LocalDateTime createdAt, RiskProfileDto result) {
+    UUID jobId, UUID videoId, String status, LocalDateTime createdAt, RiskProfileDto result) {
 
   public static AnalysisJobResponse fromAnalysisJob(AnalysisJob job) {
     return new AnalysisJobResponse(
         job.getId(),
-        job.getVideo().getYoutubeId(),
+        job.getVideo().getId(),
         job.getStatus().name(),
         job.getCreatedAt(),
         null);
@@ -21,7 +21,7 @@ public record AnalysisJobResponse(
   public static AnalysisJobResponse fromAnalysisResult(AnalysisResult result) {
     return new AnalysisJobResponse(
         null,
-        result.getVideo().getYoutubeId(),
+        result.getVideo().getId(),
         JobStatus.COMPLETED.name(),
         result.getAnalyzedAt(),
         RiskProfileDto.fromDomain(result.getFullResponse()));
