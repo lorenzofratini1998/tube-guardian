@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AnalysisJobRepository extends JpaRepository<AnalysisJob, UUID> {
   Optional<AnalysisJob> findTopByVideoIdOrderByCreatedAtDesc(UUID videoId);
+
+  Optional<AnalysisJob> getAnalysisJobsByVideoId(UUID videoId);
 }

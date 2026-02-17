@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import io.tubeguardian.common.domain.Video;
 import io.tubeguardian.common.domain.VideoContent;
-import io.tubeguardian.orchestrator.repository.VideoRepository;
 import io.tubeguardian.orchestrator.AbstractIntegrationTest;
 import io.tubeguardian.orchestrator.domain.model.YoutubeUrl;
+import io.tubeguardian.orchestrator.repository.VideoRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,34 +29,7 @@ class VideoIngestionAdapterIT extends AbstractIntegrationTest {
     String videoId = "dQw4w9WgXcQ";
     String url = "https://www.youtube.com/watch?v=" + videoId;
 
-    stubFor(
-        post(urlEqualTo("/api/v1/transcript"))
-            .withRequestBody(matchingJsonPath("$.url", equalTo(url)))
-            .willReturn(
-                aResponse()
-                    .withHeader("Content-Type", "application/json")
-                    .withBody(
-                        """
-                            {
-                                "metadata": {
-                                    "video_id": "%s",
-                                    "title": "Rick Astley - Never Gonna Give You Up",
-                                    "channel": "RickAstley",
-                                    "video_url": "%s",
-                                    "thumbnail_url": "http://img.youtube.com/vi/%s/0.jpg",
-                                    "duration_seconds": 212,
-                                    "upload_date": "20091025"
-                                },
-                                "transcript": {
-                                    "text": "We're no strangers to love...",
-                                    "language_code": "en",
-                                    "is_auto_generated": false
-                                },
-                                "status": "success"
-                            }
-                        """
-                            .formatted(videoId, url, videoId))
-                    .withStatus(200)));
+    stubIngestionResponse(videoId);
 
     Video result = ingestionAdapter.getOrIngestVideo(YoutubeUrl.of(url));
 
