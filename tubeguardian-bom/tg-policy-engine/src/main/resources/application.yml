@@ -1,3 +1,6 @@
+server:
+  port: ${SERVER_PORT:8081}
+
 spring:
   application:
     name: tg-policy-engine
@@ -15,6 +18,7 @@ spring:
       genai:
         api-key: ${GOOGLE_GENAI_API_KEY}
         model: gemini-embedding-001
+        chat-model: gemini-2.5-flash
 
     vectorstore:
       qdrant:

@@ -7,7 +7,7 @@ import io.tubeguardian.common.domain.Video;
 import io.tubeguardian.common.domain.VideoContent;
 import io.tubeguardian.orchestrator.AbstractIntegrationTest;
 import io.tubeguardian.orchestrator.domain.model.YoutubeUrl;
-import io.tubeguardian.orchestrator.repository.VideoRepository;
+import io.tubeguardian.common.repository.VideoRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

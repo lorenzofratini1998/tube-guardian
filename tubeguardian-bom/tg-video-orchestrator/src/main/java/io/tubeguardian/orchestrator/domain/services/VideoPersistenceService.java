@@ -2,7 +2,7 @@ package io.tubeguardian.orchestrator.domain.services;
 
 import io.tubeguardian.common.domain.Video;
 import io.tubeguardian.common.domain.VideoContent;
-import io.tubeguardian.orchestrator.repository.VideoRepository;
+import io.tubeguardian.common.repository.VideoRepository;
 import io.tubeguardian.orchestrator.infrastructure.client.ingestion.dto.VideoResponseDto;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
