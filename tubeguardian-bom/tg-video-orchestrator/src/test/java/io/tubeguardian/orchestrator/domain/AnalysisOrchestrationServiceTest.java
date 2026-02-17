@@ -8,11 +8,13 @@ import io.tubeguardian.common.domain.AnalysisJob;
 import io.tubeguardian.common.domain.AnalysisResult;
 import io.tubeguardian.common.domain.Video;
 import io.tubeguardian.common.domain.status.JobStatus;
-import io.tubeguardian.orchestrator.repository.AnalysisJobRepository;
 import io.tubeguardian.common.repository.AnalysisResultRepository;
 import io.tubeguardian.orchestrator.api.dto.AnalysisJobResponse;
 import io.tubeguardian.orchestrator.api.dto.AnalysisRequest;
 import io.tubeguardian.orchestrator.domain.model.YoutubeUrl;
+import io.tubeguardian.orchestrator.infrastructure.messaging.producer.AnalysisJobProducer;
+import io.tubeguardian.orchestrator.repository.AnalysisJobRepository;
+import io.tubeguardian.orchestrator.util.TestFixtures;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +22,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import io.tubeguardian.orchestrator.util.TestFixtures;
 
 @ExtendWith(MockitoExtension.class)
 class AnalysisOrchestrationServiceTest {
@@ -28,6 +29,7 @@ class AnalysisOrchestrationServiceTest {
   @Mock private VideoIngestionAdapter videoIngestionAdapter;
   @Mock private AnalysisJobRepository jobRepository;
   @Mock private AnalysisResultRepository resultRepository;
+  @Mock private AnalysisJobProducer jobProducer;
 
   @InjectMocks private AnalysisOrchestrationService service;
 
@@ -67,10 +69,10 @@ class AnalysisOrchestrationServiceTest {
   }
 
   @Test
-  @DisplayName("Scenario: New Video -> Create New Job")
+  @DisplayName("Scenario: New Video -> Create New Job AND Publish Event")
   void shouldCreateNewJob_WhenNoHistoryExists() {
     AnalysisRequest request = TestFixtures.validRequest();
-    Video video = TestFixtures.videoEntity();
+    Video video = TestFixtures.videoEntityWithId();
     AnalysisJob newJob = TestFixtures.pendingJob(video);
 
     when(videoIngestionAdapter.getOrIngestVideo(any(YoutubeUrl.class))).thenReturn(video);
@@ -78,11 +80,17 @@ class AnalysisOrchestrationServiceTest {
     when(jobRepository.findTopByVideoIdOrderByCreatedAtDesc(video.getId()))
         .thenReturn(Optional.empty());
 
-    when(jobRepository.save(any(AnalysisJob.class))).thenAnswer(i -> i.getArguments()[0]);
+    when(jobRepository.save(any(AnalysisJob.class))).thenReturn(newJob);
 
     AnalysisJobResponse response = service.analyzeVideo(request);
 
     assertThat(response.status()).isEqualTo(JobStatus.PENDING.name());
     verify(jobRepository).save(any(AnalysisJob.class));
+    verify(jobProducer, times(1))
+        .publishJob(
+            argThat(
+                event ->
+                    event.videoId().equals(video.getId())
+                        && event.youtubeId().equals(video.getYoutubeId())));
   }
 }

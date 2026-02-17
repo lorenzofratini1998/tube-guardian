@@ -9,6 +9,8 @@ import io.tubeguardian.orchestrator.api.dto.AnalysisRequest;
 import io.tubeguardian.orchestrator.domain.model.YoutubeUrl;
 import io.tubeguardian.orchestrator.infrastructure.client.ingestion.dto.VideoResponseDto;
 import java.util.Map;
+import java.util.UUID;
+import org.springframework.test.util.ReflectionTestUtils;
 
 public class TestFixtures {
 
@@ -34,31 +36,34 @@ public class TestFixtures {
     return new VideoResponseDto(metadata, transcript, "success");
   }
 
-    public static Video videoEntity() {
-        return Video.create(VIDEO_ID, "Test Video", "Test Channel");
-    }
+  public static Video videoEntity() {
+      return Video.create(VIDEO_ID, "Test Video", "Test Channel");
+  }
 
-    public static AnalysisJob pendingJob(Video video) {
-        return AnalysisJob.create(video);
-    }
+  public static Video videoEntityWithId() {
+    Video video = Video.create(VIDEO_ID, "Test Video", "Test Channel");
+    ReflectionTestUtils.setField(video, "id", UUID.randomUUID());
+    return video;
+  }
 
-    public static AnalysisJob runningJob(Video video) {
-        AnalysisJob job = AnalysisJob.create(video);
-        job.setStatus(JobStatus.PROCESSING);
-        return job;
-    }
+  public static AnalysisJob pendingJob(Video video) {
+    AnalysisJob job = AnalysisJob.create(video);
+    ReflectionTestUtils.setField(job, "id", UUID.randomUUID());
+    return job;
+  }
 
-    public static AnalysisResult analysisResult(Video video) {
-        var riskProfile = new AnalysisResult.RiskProfile(
-                RiskLevel.LOW,
-                95,
-                "Safe content",
-                Map.of()
-        );
-        return AnalysisResult.create(video, riskProfile);
-    }
+  public static AnalysisJob runningJob(Video video) {
+    AnalysisJob job = AnalysisJob.create(video);
+    job.setStatus(JobStatus.PROCESSING);
+    return job;
+  }
 
-    public static YoutubeUrl youtubeUrl() {
-        return YoutubeUrl.of(VALID_URL);
-    }
+  public static AnalysisResult analysisResult(Video video) {
+    var riskProfile = new AnalysisResult.RiskProfile(RiskLevel.LOW, 95, "Safe content", Map.of());
+    return AnalysisResult.create(video, riskProfile);
+  }
+
+  public static YoutubeUrl youtubeUrl() {
+    return YoutubeUrl.of(VALID_URL);
+  }
 }

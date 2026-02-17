@@ -9,13 +9,22 @@ spring:
     name: tg-video-orchestrator
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/${SPRING_DATASOURCE_DB}
+    url: jdbc:postgresql://${SPRING_DATASOURCE_HOST:localhost}:${SPRING_DATASOURCE_PORT:5432}/${SPRING_DATASOURCE_DB}
     username: ${SPRING_DATASOURCE_USER}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: validate
+
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USER:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+    listener:
+      simple:
+        default-requeue-rejected: false
 
 resilience4j:
   circuitbreaker:
