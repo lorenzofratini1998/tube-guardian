@@ -14,7 +14,7 @@ import io.tubeguardian.orchestrator.AbstractIntegrationTest;
 import io.tubeguardian.orchestrator.api.dto.AnalysisRequest;
 import io.tubeguardian.orchestrator.domain.AnalysisOrchestrationService;
 import io.tubeguardian.orchestrator.repository.AnalysisJobRepository;
-import io.tubeguardian.orchestrator.repository.VideoRepository;
+import io.tubeguardian.common.repository.VideoRepository;
 import io.tubeguardian.orchestrator.util.TestFixtures;
 import java.time.Duration;
 import org.junit.jupiter.api.BeforeEach;

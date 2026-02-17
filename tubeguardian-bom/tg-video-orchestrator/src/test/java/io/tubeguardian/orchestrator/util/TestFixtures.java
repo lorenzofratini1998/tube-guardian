@@ -8,7 +8,7 @@ import io.tubeguardian.common.domain.status.JobStatus;
 import io.tubeguardian.orchestrator.api.dto.AnalysisRequest;
 import io.tubeguardian.orchestrator.domain.model.YoutubeUrl;
 import io.tubeguardian.orchestrator.infrastructure.client.ingestion.dto.VideoResponseDto;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -37,7 +37,7 @@ public class TestFixtures {
   }
 
   public static Video videoEntity() {
-      return Video.create(VIDEO_ID, "Test Video", "Test Channel");
+    return Video.create(VIDEO_ID, "Test Video", "Test Channel");
   }
 
   public static Video videoEntityWithId() {
@@ -59,7 +59,7 @@ public class TestFixtures {
   }
 
   public static AnalysisResult analysisResult(Video video) {
-    var riskProfile = new AnalysisResult.RiskProfile(RiskLevel.LOW, 95, "Safe content", Map.of());
+    var riskProfile = new AnalysisResult.RiskProfile(RiskLevel.LOW, 95, "Safe content", List.of());
     return AnalysisResult.create(video, riskProfile);
   }
 
