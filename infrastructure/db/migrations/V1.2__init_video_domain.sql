@@ -53,6 +53,7 @@ CREATE TABLE brand_profiles
 (
     profile_id   VARCHAR(50)  NOT NULL,
     display_name VARCHAR(255) NOT NULL,
+    logo_url     VARCHAR(255) NOT NULL,
     tolerances   JSONB        NOT NULL,
     created_at   TIMESTAMP WITHOUT TIME ZONE,
     updated_at   TIMESTAMP WITHOUT TIME ZONE,
