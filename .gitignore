@@ -3,3 +3,4 @@ infrastructure/.env
 .idea/
 target/
 *.class
+.secrets
