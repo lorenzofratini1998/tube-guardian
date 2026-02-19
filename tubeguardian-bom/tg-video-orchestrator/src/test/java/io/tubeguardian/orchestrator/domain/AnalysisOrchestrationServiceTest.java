@@ -7,12 +7,12 @@ import static org.mockito.Mockito.*;
 import io.tubeguardian.common.domain.AnalysisJob;
 import io.tubeguardian.common.domain.AnalysisResult;
 import io.tubeguardian.common.domain.Video;
+import io.tubeguardian.common.domain.event.AnalysisJobEvent;
 import io.tubeguardian.common.domain.status.JobStatus;
 import io.tubeguardian.common.repository.AnalysisResultRepository;
 import io.tubeguardian.orchestrator.api.dto.AnalysisJobResponse;
 import io.tubeguardian.orchestrator.api.dto.AnalysisRequest;
 import io.tubeguardian.orchestrator.domain.model.YoutubeUrl;
-import io.tubeguardian.orchestrator.infrastructure.messaging.producer.AnalysisJobProducer;
 import io.tubeguardian.orchestrator.repository.AnalysisJobRepository;
 import io.tubeguardian.orchestrator.util.TestFixtures;
 import java.util.Optional;
@@ -22,6 +22,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 @ExtendWith(MockitoExtension.class)
 class AnalysisOrchestrationServiceTest {
@@ -29,7 +30,7 @@ class AnalysisOrchestrationServiceTest {
   @Mock private VideoIngestionAdapter videoIngestionAdapter;
   @Mock private AnalysisJobRepository jobRepository;
   @Mock private AnalysisResultRepository resultRepository;
-  @Mock private AnalysisJobProducer jobProducer;
+  @Mock private ApplicationEventPublisher eventPublisher;
 
   @InjectMocks private AnalysisOrchestrationService service;
 
@@ -86,11 +87,11 @@ class AnalysisOrchestrationServiceTest {
 
     assertThat(response.status()).isEqualTo(JobStatus.PENDING.name());
     verify(jobRepository).save(any(AnalysisJob.class));
-    verify(jobProducer, times(1))
-        .publishJob(
-            argThat(
-                event ->
-                    event.videoId().equals(video.getId())
-                        && event.youtubeId().equals(video.getYoutubeId())));
+    verify(eventPublisher, times(1)).publishEvent(
+            argThat((AnalysisJobEvent event) ->
+                    event.videoId().equals(video.getId()) &&
+                            event.youtubeId().equals(video.getYoutubeId())
+            )
+    );
   }
 }
