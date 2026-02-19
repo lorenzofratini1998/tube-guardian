@@ -1,0 +1,50 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+app:
+  services:
+    ingestion:
+      url: ${INGESTION_SERVICE_URL:http://localhost:8000}
+      timeout: ${INGESTION_SERVICE_TIMEOUT:30s}
+
+spring:
+  application:
+    name: tg-video-orchestrator
+
+  datasource:
+    url: jdbc:postgresql://${SPRING_DATASOURCE_HOST:localhost}:${SPRING_DATASOURCE_PORT:5432}/${SPRING_DATASOURCE_DB}
+    username: ${SPRING_DATASOURCE_USER}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USER:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+    listener:
+      simple:
+        default-requeue-rejected: false
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      ingestion-service:
+        register-health-indicator: true
+        sliding-window-size: 10             # View the last 10 calls
+        minimum-number-of-calls: 5          # At least 5 calls before deciding
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 10s    # If the circuit opens, wait 10 seconds before trying again (Half-Open)
+        failure-rate-threshold: 50          # If 50% fails, open the circuit
+        event-consumer-buffer-size: 10
+  retry:
+    instances:
+      ingestion-service:
+        max-attempts: 3
+        wait-duration: 2s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2

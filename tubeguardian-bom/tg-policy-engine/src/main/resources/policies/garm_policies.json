@@ -1,0 +1,311 @@
+[
+  {
+    "id": "GARM-ADULT",
+    "category": "Adult & Sexual Content",
+    "definition": "Content depicting sexual behavior, nudity, or sexual themes.",
+    "risk_levels": {
+      "LOW": "Romance, kissing, non-sexual nudity in art or medical contexts.",
+      "MEDIUM": "Suggestive themes, sexual innuendo, revealing clothing in entertainment contexts.",
+      "HIGH": "Pornography, explicit sexual acts, non-consensual sexual content."
+    },
+    "context_vectors": {
+      "unsafe_signals": [
+        "pornography",
+        "explicit sex",
+        "hardcore",
+        "xxx",
+        "nudity",
+        "sexual intercourse",
+        "fetish",
+        "hentai",
+        "erotica"
+      ],
+      "safe_exceptions": [
+        "Artistic nudity",
+        "Medical education",
+        "Breastfeeding",
+        "Romantic drama",
+        "Health documentary"
+      ]
+    }
+  },
+  {
+    "id": "GARM-ARMS",
+    "category": "Arms & Ammunition",
+    "definition": "Content promoting the sale or use of weapons, firearms, and ammunition.",
+    "risk_levels": {
+      "LOW": "Fictional weapons in gaming/movies, historical museums, water guns.",
+      "MEDIUM": "Hunting, sport shooting, reviews of legal firearms with safety context.",
+      "HIGH": "Unregulated sale of firearms, instructions on making 3D printed guns, promotion of weaponized violence."
+    },
+    "context_vectors": {
+      "unsafe_signals": [
+        "buy guns",
+        "3D print gun",
+        "ammo sale",
+        "automatic weapon",
+        "silencer",
+        "bomb making",
+        "explosives guide"
+      ],
+      "safe_exceptions": [
+        "Olympic shooting",
+        "Historical documentary",
+        "Video game weaponry",
+        "Fictional movies",
+        "Law enforcement training"
+      ]
+    }
+  },
+  {
+    "id": "GARM-CRIME",
+    "category": "Crime & Harmful Acts to Individuals and Society",
+    "definition": "Content depicting illegal activities, self-harm, or harm to others.",
+    "risk_levels": {
+      "LOW": "Crime dramas, news reporting on crime statistics, fictional villains.",
+      "MEDIUM": "Graphic depictions of crime in entertainment, discussions on controversial laws.",
+      "HIGH": "Promotion of illegal acts, instructions for crime, real-world self-harm or suicide promotion."
+    },
+    "context_vectors": {
+      "unsafe_signals": [
+        "how to steal",
+        "shoplifting tips",
+        "suicide instruction",
+        "self-harm promotion",
+        "vandalism guide",
+        "human trafficking",
+        "cybercrime tutorial"
+      ],
+      "safe_exceptions": [
+        "News reporting",
+        "Crime prevention",
+        "Mental health support",
+        "True crime documentary",
+        "Fictional entertainment"
+      ]
+    }
+  },
+  {
+    "id": "GARM-DEATH",
+    "category": "Death, Injury, or Military Conflict",
+    "definition": "Content displaying death, gore, physical injury, or military combat.",
+    "risk_levels": {
+      "LOW": "Abstract discussions of mortality, fictional battles without gore, memorial services.",
+      "MEDIUM": "News footage of conflict zones (blurred), medical procedures (educational), stylized action violence.",
+      "HIGH": "Graphic real-world gore, beheadings, torture, mutilation, unedited war footage."
+    },
+    "context_vectors": {
+      "unsafe_signals": [
+        "gore",
+        "decapitation",
+        "mutilation",
+        "corpse",
+        "dismemberment",
+        "torture",
+        "snuff",
+        "gruesome accident"
+      ],
+      "safe_exceptions": [
+        "Medical surgery education",
+        "News reporting on war",
+        "Historical archives",
+        "Action movies (CGI)",
+        "Memorial tributes"
+      ]
+    }
+  },
+  {
+    "id": "GARM-PIRACY",
+    "category": "Online Piracy",
+    "definition": "Content promoting or enabling the unauthorized distribution of copyrighted material.",
+    "risk_levels": {
+      "LOW": "Discussions about copyright law, reviews of streaming services.",
+      "MEDIUM": "Debates on internet freedom, news about piracy crackdowns.",
+      "HIGH": "Links to torrent sites, cracked software downloads, stream ripping tools."
+    },
+    "context_vectors": {
+      "unsafe_signals": [
+        "torrent download",
+        "free stream movie",
+        "crack serial key",
+        "warez",
+        "leaked album",
+        "bypass paywall",
+        "bootleg"
+      ],
+      "safe_exceptions": [
+        "Copyright law discussion",
+        "Cybersecurity research",
+        "Anti-piracy technology",
+        "Fair use analysis"
+      ]
+    }
+  },
+  {
+    "id": "GARM-HATE",
+    "category": "Hate Speech & Acts of Aggression",
+    "definition": "Content that promotes violence or discrimination against protected groups.",
+    "risk_levels": {
+      "LOW": "Educational content about civil rights, condemnation of hate speech.",
+      "MEDIUM": "Reporting on hate groups, fictional antagonists using slurs (condemned by narrative).",
+      "HIGH": "Direct hate speech, racial slurs, promotion of genocide, recruitment for hate groups."
+    },
+    "context_vectors": {
+      "unsafe_signals": [
+        "racial slur",
+        "white supremacy",
+        "kill all [group]",
+        "neo-nazi",
+        "homophobia",
+        "antisemitism",
+        "dehumanization"
+      ],
+      "safe_exceptions": [
+        "Civil rights documentary",
+        "News reporting on hate crimes",
+        "Educational history",
+        "Counter-speech",
+        "Academic analysis"
+      ]
+    }
+  },
+  {
+    "id": "GARM-OBSCENE",
+    "category": "Obscenity & Profanity",
+    "definition": "Content containing offensive language, vulgar gestures, or scatological humor.",
+    "risk_levels": {
+      "LOW": "Mild slang, 'damn/hell', biological discussions.",
+      "MEDIUM": "Strong language (f-bombs) in music or movies, adult comedy.",
+      "HIGH": "Relentless profanity, extremely vulgar insults, scatological perversion."
+    },
+    "context_vectors": {
+      "unsafe_signals": [
+        "fuck",
+        "cunt",
+        "shit",
+        "vulgar gestures",
+        "scat",
+        "profanity barrage",
+        "obscene insults"
+      ],
+      "safe_exceptions": [
+        "Comedy routines",
+        "Rap/Hip-hop lyrics",
+        "Direct quotes in news",
+        "Fictional dialogue",
+        "Tourette's awareness"
+      ]
+    }
+  },
+  {
+    "id": "GARM-DRUGS",
+    "category": "Illegal Drugs / Tobacco / E-Cigarettes / Alcohol / Gambling",
+    "definition": "Content depicting or promoting the use of regulated substances.",
+    "risk_levels": {
+      "LOW": "Anti-drug PSAs, news on drug policy, fictional depiction with negative consequences.",
+      "MEDIUM": "Depiction of legal substance use (alcohol/tobacco) in entertainment, cannabis news.",
+      "HIGH": "Sale of illegal drugs, instructions on manufacturing drugs, glamorization of addiction."
+    },
+    "context_vectors": {
+      "unsafe_signals": [
+        "buy cocaine",
+        "heroin injection",
+        "meth recipe",
+        "darknet drug market",
+        "get high",
+        "dealer contact",
+        "pills for sale"
+      ],
+      "safe_exceptions": [
+        "Addiction recovery",
+        "Medical cannabis education",
+        "News on drug bust",
+        "Pharmacology lectures",
+        "Fictional movies"
+      ]
+    }
+  },
+  {
+    "id": "GARM-SPAM",
+    "category": "Spam or Harmful Content",
+    "definition": "Content that is deceptive, irrelevant, or technically harmful (malware).",
+    "risk_levels": {
+      "LOW": "Marketing content (labeled), clickbait-style headlines (harmless).",
+      "MEDIUM": "Misleading thumbnails, aggressive multi-level marketing (MLM) schemes.",
+      "HIGH": "Phishing links, malware downloads, scams, bot-generated gibberish."
+    },
+    "context_vectors": {
+      "unsafe_signals": [
+        "click here for prize",
+        "virus download",
+        "phishing login",
+        "make money fast scam",
+        "you won iphone",
+        "malware",
+        "spyware"
+      ],
+      "safe_exceptions": [
+        "Cybersecurity education",
+        "Scam baiting videos",
+        "Marketing analysis",
+        "Tech support advice"
+      ]
+    }
+  },
+  {
+    "id": "GARM-TERROR",
+    "category": "Terrorism",
+    "definition": "Content promoting, supporting, or recruiting for terrorist organizations.",
+    "risk_levels": {
+      "LOW": "Memorials for victims, educational history of conflicts.",
+      "MEDIUM": "News reporting on terrorist attacks, fictional plots involving terrorism.",
+      "HIGH": "Propaganda videos, recruitment messages, praise for terrorist acts, hostage videos."
+    },
+    "context_vectors": {
+      "unsafe_signals": [
+        "join isis",
+        "jihad recruitment",
+        "manifesto",
+        "bomb threat",
+        "praise attacker",
+        "martyrdom operation",
+        "hostage execution"
+      ],
+      "safe_exceptions": [
+        "News reporting",
+        "Counter-terrorism analysis",
+        "Historical documentary",
+        "Victim impact statements",
+        "Fictional thrillers"
+      ]
+    }
+  },
+  {
+    "id": "GARM-SOCIAL",
+    "category": "Sensitive Social Issues",
+    "definition": "Content related to intensely debated social topics (politics, religion, rights).",
+    "risk_levels": {
+      "LOW": "Factual reporting, balanced debates, educational civics.",
+      "MEDIUM": "Op-eds, partisan political commentary, satire.",
+      "HIGH": "Disinformation, inflammatory polarization, conspiracy theories designed to incite panic."
+    },
+    "context_vectors": {
+      "unsafe_signals": [
+        "election fraud conspiracy",
+        "anti-vax misinformation",
+        "radicalization",
+        "fake news",
+        "climate change denial",
+        "political riots",
+        "extremist rally"
+      ],
+      "safe_exceptions": [
+        "Political debates",
+        "News commentary",
+        "Scientific discourse",
+        "Op-Ed pieces",
+        "Town hall meetings"
+      ]
+    }
+  }
+]

@@ -1,0 +1,2 @@
+CREATE SCHEMA IF NOT EXISTS video_domain;
+CREATE SCHEMA IF NOT EXISTS analysis_domain;

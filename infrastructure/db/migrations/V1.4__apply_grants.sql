@@ -1,0 +1,17 @@
+-- GRANT on schemas
+GRANT USAGE ON SCHEMA video_domain TO ${MS_ORCHESTRATOR_USER};
+GRANT USAGE ON SCHEMA video_domain TO ${MS_POLICY_ENGINE_USER};
+GRANT USAGE ON SCHEMA analysis_domain TO ${MS_ORCHESTRATOR_USER};
+GRANT USAGE ON SCHEMA analysis_domain TO ${MS_POLICY_ENGINE_USER};
+
+-- Video Orchestrator
+GRANT SELECT, INSERT, UPDATE, DELETE ON video_domain.videos TO ${MS_ORCHESTRATOR_USER};
+GRANT SELECT, INSERT, UPDATE, DELETE ON video_domain.analysis_jobs TO ${MS_ORCHESTRATOR_USER};
+GRANT SELECT, INSERT, UPDATE, DELETE ON video_domain.brand_profiles TO ${MS_ORCHESTRATOR_USER};
+GRANT SELECT, INSERT, UPDATE, DELETE ON video_domain.video_contents TO ${MS_ORCHESTRATOR_USER};
+GRANT SELECT ON analysis_domain.analysis_results TO ${MS_ORCHESTRATOR_USER};
+
+-- Policy Engine
+GRANT SELECT, INSERT, UPDATE, DELETE ON analysis_domain.analysis_results TO ${MS_POLICY_ENGINE_USER};
+GRANT SELECT, INSERT, UPDATE, DELETE ON analysis_domain.policy_versions TO ${MS_POLICY_ENGINE_USER};
+GRANT SELECT ON video_domain.video_contents TO ${MS_POLICY_ENGINE_USER};

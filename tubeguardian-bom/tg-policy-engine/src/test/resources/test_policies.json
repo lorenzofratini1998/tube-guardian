@@ -1,0 +1,14 @@
+[
+  {
+    "id": "TEST-POLICY-01",
+    "category": "Test Category",
+    "definition": "This is a test definition.",
+    "risk_levels": {
+      "HIGH": "Critical risk example."
+    },
+    "context_vectors": {
+      "unsafe_signals": ["bad_word_1", "bad_word_2"],
+      "safe_exceptions": ["safe_context_1"]
+    }
+  }
+]
