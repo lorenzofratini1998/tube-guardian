@@ -16,7 +16,7 @@ services:
       - tg-network
     # Healthcheck ensures the DB is ready before the Orchestrator starts
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -35,6 +35,8 @@ services:
       FLYWAY_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
       FLYWAY_USER: ${POSTGRES_USER}
       FLYWAY_PASSWORD: ${POSTGRES_PASSWORD}
+      FLYWAY_PLACEHOLDERS_MS_ORCHESTRATOR_USER: ${MS_ORCHESTRATOR_USER}
+      FLYWAY_PLACEHOLDERS_MS_POLICY_ENGINE_USER: ${MS_POLICY_ENGINE_USER}
       FLYWAY_PLACEHOLDERS_MS_ORCHESTRATOR_PASSWORD: ${MS_ORCHESTRATOR_PASSWORD}
       FLYWAY_PLACEHOLDERS_MS_POLICY_ENGINE_PASSWORD: ${MS_POLICY_ENGINE_PASSWORD}
     volumes:
@@ -79,7 +81,7 @@ services:
     networks:
       - tg-network
     healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      test: [ "CMD", "rabbitmq-diagnostics", "-q", "ping" ]
       interval: 30s
       timeout: 30s
       retries: 3

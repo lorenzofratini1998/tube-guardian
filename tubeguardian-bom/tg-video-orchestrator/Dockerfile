@@ -17,7 +17,7 @@ WORKDIR /app
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 
-ARG JAR_FILE=/app/tg-video-orchestrator/target/*.jar
+ARG JAR_FILE=/app/tg-video-orchestrator/target/*-exec.jar
 COPY --from=builder ${JAR_FILE} app.jar
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

@@ -1,0 +1,119 @@
+services:
+  tg-video-orchestrator:
+    image: lfrat/tg-video-orchestrator:${APP_VERSION:-latest}
+    container_name: tg-video-orchestrator
+    restart: unless-stopped
+    ports:
+      - "${TG_ORCHESTRATOR_PORT:-8080}:8080"
+    environment:
+      - INGESTION_SERVICE_URL=http://tg-transcript-ingestor:8000
+      # --- Database (PostgreSQL) ---
+      - SPRING_DATASOURCE_HOST=postgres
+      - SPRING_DATASOURCE_PORT=5432
+      - SPRING_DATASOURCE_DB=${POSTGRES_DB}
+      - SPRING_DATASOURCE_USER=${MS_ORCHESTRATOR_USER}
+      - SPRING_DATASOURCE_PASSWORD=${MS_ORCHESTRATOR_PASSWORD}
+      # --- Message Broker (RabbitMQ) ---
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USER=${RABBITMQ_USER}
+      - SPRING_RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      db-migrations:
+        condition: service_completed_successfully
+    networks:
+      - tg-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1024M
+        reservations:
+          memory: 512M
+
+  tg-policy-engine:
+    image: lfrat/tg-policy-engine:${APP_VERSION:-latest}
+    container_name: tg-policy-engine
+    restart: unless-stopped
+    ports:
+      - "${POLICY_ENGINE_PORT:-8081}:8081"
+    environment:
+      # --- Database (PostgreSQL) ---
+      - SPRING_DATASOURCE_HOST=postgres
+      - SPRING_DATASOURCE_PORT=5432
+      - SPRING_DATASOURCE_DB=${POSTGRES_DB}
+      - SPRING_DATASOURCE_USER=${MS_POLICY_ENGINE_USER}
+      - SPRING_DATASOURCE_PASSWORD=${MS_POLICY_ENGINE_PASSWORD}
+      # --- Message Broker (RabbitMQ) ---
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USER=${RABBITMQ_USER}
+      - SPRING_RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+      # --- Vector Store (Qdrant) ---
+      - SPRING_AI_VECTORSTORE_QDRANT_HOST=qdrant
+      - SPRING_AI_VECTORSTORE_QDRANT_PORT=6334
+      # --- AI Provider ---
+      - GOOGLE_GENAI_API_KEY=${GOOGLE_GENAI_API_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      db-migrations:
+        condition: service_completed_successfully
+      qdrant:
+        condition: service_started
+    networks:
+      - tg-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1024M
+        reservations:
+          memory: 512M
+
+  tg-transcript-ingestor:
+    image: lfrat/transcript-ingestor:${APP_VERSION:-latest}
+    container_name: tg-transcript-ingestor
+    restart: unless-stopped
+    ports:
+      - "${INGESTOR_PORT:-8000}:8000"
+    environment:
+      - DEBUG=false
+      - LOG_LEVEL=INFO
+      - HOST=0.0.0.0
+      - PORT=8000
+    networks:
+      - tg-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          memory: 128M
+
+  tubeguardian-ui:
+    image: lfrat/tubeguardian-ui:${APP_VERSION:-latest}
+    container_name: tubeguardian-ui
+    restart: unless-stopped
+    ports:
+      - "${UI_PORT:-8501}:8501"
+    environment:
+      - API_BASE_URL=http://tg-video-orchestrator:8080/api/v1
+    depends_on:
+      - tg-video-orchestrator
+    networks:
+      - tg-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          memory: 256M

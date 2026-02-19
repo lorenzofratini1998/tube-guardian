@@ -2,5 +2,7 @@ spring:
   flyway:
     locations: filesystem:../../infrastructure/db/migrations
     placeholders:
+      MS_ORCHESTRATOR_USER: test_orchestrator_user
       MS_ORCHESTRATOR_PASSWORD: test_orchestrator_password
+      MS_POLICY_ENGINE_USER: test_policy_engine_user
       MS_POLICY_ENGINE_PASSWORD: test_policy_engine_password
