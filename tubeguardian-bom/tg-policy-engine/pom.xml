@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.tubeguardian</groupId>
         <artifactId>tubeguardian-bom</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>tg-policy-engine</artifactId>
